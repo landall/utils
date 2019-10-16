@@ -12,6 +12,7 @@ class ThreadPool
 	public $channel_go;
 	public $events;
 
+	const STEP_ENV = 50;
 	const STEP_INIT = 0;
 	const STEP_LOOP = 1;
 	const STEP_STOP = 10;
@@ -20,12 +21,13 @@ class ThreadPool
 	{
 		$s = function($func, $init)
 		{
-			require_once __DIR__ . '/../autoload.php';
 			$ch_cmd = $init['command'];
 			$ch_reply = $init['reply'];
 			$args = $init['args'];
 			$id = 'Thread_'.$init['id'];
 			$counter = 0;
+			call_user_func($func, ThreadPool::STEP_ENV, $args, null, null);
+			
 			$vars = new ThreadVars();
 
 			$reply = call_user_func($func, ThreadPool::STEP_INIT, $args, $vars, null);
@@ -101,6 +103,12 @@ class ThreadPool
 
 	public function isAllDone() : bool
 	{
+		//TODO: 效率优化
+		foreach($this->workers as $w) {
+			if ($w['future']->done())   //必须if，否则会丢数据，原理没搞懂
+				$w['future']->value();  //To get Exception
+		}
+
 		if(count($this->events)>0) return false;
 
 		foreach($this->workers as $w)
