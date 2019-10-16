@@ -1,0 +1,32 @@
+{
+    "name": "landall/utils",
+    "type": "library",
+    "description": "utils to help coding.",
+    "keywords": ["utils"],
+    "homepage": "https://https://github.com/landall",
+    "authors": [
+        {
+            "name": "cst_zf",
+            "email": "cst_zf@qq.com",
+            "homepage": "https://https://github.com/landall",
+            "role": "Project Founder"
+       }
+    ],
+    "license": "MIT",
+    "repositories": {
+        "packagist": {
+            "type": "composer",
+            "url": "https://packagist.phpcomposer.com"
+        }
+    },
+    "require": {
+        "php": "^7.2"
+    },
+    "require-dev": {
+    },
+    "autoload": {
+        "psr-4" : {
+            "PersonalCloudStorage\\" : "libs/"
+        }
+    }
+}
