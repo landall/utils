@@ -10,6 +10,8 @@ use \PersonalCloudStorage\PCSException;
   #开头的行不理
   其他行是逗号分隔，除了最后一列外，列的值没有含逗号的情况，最后一列含逗号没关系。所有字段均可以含有空格，不需要加引号。
 
+  每行最长8K
+
 %%%% HASHDEEP-1.0
 %%%% size,md5,sha256,filename
 ## Invoked from: H:\md5deep-4.4
@@ -61,17 +63,24 @@ class HashFile
 				throw new PCSException('column count of line '.$i.' is wrong',4,PCSException::BIZLOGIC);
 			if($cc < count($m))
 			{
+				//Debug::pr('----Merge----');
+				//Debug::p($cc);
 				//Debug::pr($i);
 				//Debug::pr($s);
 				//Debug::pr($m);
-				$b = array_slice($m, 0, 3);
-				$b[] = implode(',', array_slice($m, 3));
+				$b = array_slice($m, 0, $cc-1);
+				$b[] = implode(',', array_slice($m, $cc-1));
 				$m = $b;
 				//Debug::pr($m);
 				//sleep(2);
 			}
 			foreach($ins as $col=>$in)
 			{
+				if(sizeof($m) <= $in) {
+					//出现了就说明其他地方有bug
+					Debug::pr($in);
+					Debug::pr($m);
+				}
 				$a[$col] = ($in === false)? '' : $m[$in];
 			}
 			$result[] = $a;
