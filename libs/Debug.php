@@ -2,27 +2,27 @@
 
 namespace PersonalCloudStorage;
 
-const USE_DEBUG = true;
 
 class Debug
 {
+	static $debug = true;
 	public static function p($value)
 	{
-		if (!USE_DEBUG) return;
+		if (!Debug::$debug) return;
 		echo $value;
 		echo PHP_EOL;
 	}
 
 	public static function p2($value)
 	{
-		if (!USE_DEBUG) return;
+		if (!Debug::$debug) return;
 		echo json_encode($value, JSON_PRETTY_PRINT + JSON_UNESCAPED_UNICODE + JSON_UNESCAPED_SLASHES);
 		echo PHP_EOL;
 	}
 
 	public static function pr($value)
 	{
-		if (!USE_DEBUG) return;
+		if (!Debug::$debug) return;
 		print_r($value);
 		echo PHP_EOL;
 	}
@@ -39,14 +39,14 @@ class Debug
 
 	public static function prgp($value)
 	{
-		if (!USE_DEBUG) return;
+		if (!Debug::$debug) return;
 		print_r(Debug::gp($value));
 		echo PHP_EOL;
 	}
 
 	public static function pr2($prefix, $value)
 	{
-		//if (!USE_DEBUG) return;
+		if (!Debug::$debug) return;
 		echo '['.$prefix.'] '.print_r($value, true);
 		echo PHP_EOL;
 	}
